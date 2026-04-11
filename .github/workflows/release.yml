@@ -1,0 +1,89 @@
+name: Release — Cross-Platform Build
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-tauri:
+    permissions:
+      contents: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: 'ubuntu-22.04'
+            args: '--target x86_64-unknown-linux-gnu'
+          - platform: 'macos-latest'
+            args: '--target aarch64-apple-darwin'
+          - platform: 'windows-latest'
+            args: ''
+
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Rust stable toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+
+      - name: Install Linux dependencies (Ubuntu only)
+        if: matrix.platform == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libwebkit2gtk-4.1-dev \
+            libappindicator3-dev \
+            librsvg2-dev \
+            patchelf \
+            libfuse2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install frontend dependencies
+        run: npm install
+
+      - name: Build and release with Tauri Action
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: ${{ github.ref_name }}
+          releaseName: 'DEUTLI Extractor ${{ github.ref_name }}'
+          releaseBody: |
+            ## DEUTLI Extractor — Portable Desktop Build
+
+            100% local, open-source metadata extractor for ComfyUI and Automatic1111 PNG files.
+
+            ### Downloads
+            | Platform | File | Notes |
+            |---|---|---|
+            | **Windows** | `DEUTLI-Extractor_x64-setup.exe` | NSIS installer |
+            | **macOS (Apple Silicon)** | `DEUTLI-Extractor_aarch64.dmg` | Unsigned — see security note below |
+            | **Linux** | `DEUTLI-Extractor_x86_64.AppImage` | Requires `chmod +x` |
+
+            ### ⚠️ Security Notes for Unsigned Binaries
+            **Windows:** SmartScreen may block the launch. Click **More info → Run anyway**.
+
+            **macOS:** Gatekeeper will flag the app. Right-click → **Open**, or run:
+            ```bash
+            xattr -cr /path/to/DEUTLI\ Extractor.app
+            ```
+
+            **Linux:** Make executable before running:
+            ```bash
+            chmod +x DEUTLI_Extractor_x86_64.AppImage
+            ./DEUTLI_Extractor_x86_64.AppImage
+            ```
+          releaseDraft: true
+          prerelease: false
+          args: ${{ matrix.args }}
