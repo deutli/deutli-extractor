@@ -1,0 +1,239 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Manrope:wght@400;700;800&display=swap');
+
+:root {
+  --background: #f5f5f5; /* Light mode */
+  --foreground: #050505;
+  --accent: #b38f00;
+  --border: #a3a3a3;
+  --surface: #e5e5e5;
+  --muted: #737373;
+  --ghost: #a3a3a3;
+
+  /* Explicitly define variables according to DEUTLI_UI_RULES */
+  --color-void-black: var(--background);
+  --color-hyper-yellow: var(--accent);
+  --color-paper-white: var(--foreground);
+  --color-soft-grey: #666666;
+  --color-mac-os-grey: var(--surface);
+  --color-muted-grey: var(--muted);
+  --color-ghost-grey: var(--ghost);
+  --color-dark-grey-border: var(--border);
+  
+  --font-sans: 'Manrope', sans-serif;
+  --font-archivo: 'Archivo Black', sans-serif;
+  --font-manrope: 'Manrope', sans-serif;
+}
+
+.theme-dark, .dark {
+  --background: #050505;
+  --foreground: #ffffff;
+  --accent: #ffff00;
+  --border: #1a1a1a;
+  --surface: #0a0a0a;
+  --muted: #808080;
+  --ghost: #404040;
+  
+  --color-void-black: #050505;
+  --color-hyper-yellow: #FFFF00;
+  --color-paper-white: #FFFFFF;
+  --color-soft-grey: #B3B3B3;
+  --color-mac-os-grey: #0A0A0A;
+  --color-muted-grey: #808080;
+  --color-ghost-grey: #404040;
+  --color-dark-grey-border: #1A1A1A;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  margin: 0;
+  padding: 0;
+}
+
+/* Micro-Rounded rules */
+.rounded-\[0px\] { border-radius: 0px; }
+.rounded-\[4px\] { border-radius: 4px; }
+
+/* Custom Text styles from Editor globals.css */
+.text-micro-label {
+  font-family: var(--font-manrope);
+  font-size: 10px;
+  text-transform: uppercase;
+  color: var(--color-muted-grey);
+  letter-spacing: 0.05em;
+}
+.text-section-header {
+  font-family: var(--font-archivo);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  color: var(--color-paper-white);
+  letter-spacing: 0.025em;
+}
+
+/* Custom Buttons/Links reset */
+button, a {
+  background: transparent;
+  text-decoration: none;
+  color: var(--color-paper-white);
+  cursor: pointer;
+  all: unset;
+  box-sizing: border-box;
+}
+
+/* Base button style (1px border default, hover accent) */
+.btn-micro-rounded {
+  border: 1px solid var(--color-dark-grey-border);
+  border-radius: 4px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-micro-rounded:hover {
+  border-color: var(--color-hyper-yellow);
+  color: var(--color-hyper-yellow);
+}
+
+.btn-micro-rounded svg {
+  color: var(--color-ghost-grey);
+  transition: all 0.2s;
+}
+
+.btn-micro-rounded:hover svg {
+  color: var(--color-hyper-yellow);
+}
+
+.btn-primary {
+  background-color: var(--color-hyper-yellow);
+  color: #050505 !important;
+  border-color: var(--color-hyper-yellow) !important;
+}
+
+.btn-primary:hover {
+  background-color: #e6e600;
+  color: #050505 !important;
+  border-color: #e6e600 !important;
+}
+
+.btn-primary svg, .btn-primary:hover svg {
+  color: #050505 !important;
+}
+
+header {
+  min-height: 64px;
+  background-color: transparent;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-dark-grey-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  gap: 16px;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+}
+
+.dashboard-nav {
+  display: flex;
+  gap: 16px;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+  /* Provides spacing from top/bottom rounded corners of the app window */
+  margin: 24px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-dark-grey-border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-ghost-grey);
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-dark-grey-border) transparent;
+}
+
+/* Modal Styles (Help & ToS) */
+#help-modal, #tos-modal {
+  background-color: var(--color-void-black);
+  color: var(--color-paper-white);
+  border: 1px solid var(--color-dark-grey-border);
+  font-family: var(--font-manrope);
+  border-radius: 0px;
+  padding: 32px;
+  max-width: 640px;
+  width: 90%;
+  max-height: 85vh;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+#help-modal::backdrop, #tos-modal::backdrop {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+#help-modal h2, #help-modal h3, #tos-modal h2, #tos-modal h3 {
+  font-family: var(--font-archivo);
+  text-transform: uppercase;
+  margin-top: 0;
+  color: var(--color-paper-white);
+}
+
+#help-modal h2, #tos-modal h2 { font-size: 24px; margin-bottom: 8px; }
+#help-modal h3, #tos-modal h3 { font-size: 14px; margin-top: 24px; margin-bottom: 12px; }
+#help-modal p, #help-modal li, #tos-modal p, #tos-modal li { font-size: 14px; line-height: 1.6; color: var(--color-soft-grey); margin-bottom: 12px; }
+#help-modal p:last-child, #tos-modal p:last-child { margin-bottom: 0; }
+#help-modal strong, #tos-modal strong { color: var(--color-paper-white); }
+#help-modal hr, #tos-modal hr { border: none; border-top: 1px solid var(--color-dark-grey-border); margin: 24px 0; }
+#help-modal a, #tos-modal a { color: var(--color-hyper-yellow); text-decoration: none; border-bottom: 1px solid var(--color-hyper-yellow); }
+#help-modal a:hover, #tos-modal a:hover { color: #e6e600; border-bottom-color: #e6e600; }
+#help-modal ul, #tos-modal ul { padding-left: 20px; margin-top: 8px; margin-bottom: 16px; }
+#help-modal li, #tos-modal li { margin-bottom: 8px; }
+#help-modal code, #tos-modal code { background-color: var(--color-mac-os-grey); padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 12px; }
+
+.btn-close-modal {
+  border: 1px solid var(--color-dark-grey-border);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--color-paper-white);
+  padding: 8px 24px;
+  font-family: var(--font-manrope);
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-size: 12px;
+  transition: all 0.2s;
+  outline: none;
+}
+
+.btn-close-modal:hover, .btn-close-modal:focus-visible {
+  border-color: var(--color-hyper-yellow);
+  color: var(--color-hyper-yellow);
+}
+
+.footer-link {
+  color: var(--color-dark-grey-border);
+  font-family: var(--font-manrope);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: bold;
+  transition: color 0.2s;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.footer-link:hover, .footer-link:focus-visible {
+  color: var(--color-paper-white);
+}

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEUTLI Extractor</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#050505">
+</head>
+<body class="theme-dark" style="display: flex; flex-direction: column; height: 100vh; box-sizing: border-box; background-color: var(--color-void-black); padding: 24px;">
+    
+    <div style="background-color: var(--color-mac-os-grey); border-radius: 24px; border: 1px solid var(--color-dark-grey-border); display: flex; flex-direction: column; overflow: hidden; flex: 1; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);">
+        
+        <header id="app-header">
+            <div style="display: flex; align-items: center; gap: 24px; flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <!-- Logo -->
+                    <a href="https://deut.li" class="logo-link group" style="cursor: pointer;">
+                        <div class="font-archivo text-section-header" style="font-weight: 900; font-size: 1.5rem; letter-spacing: -0.05em; text-transform: lowercase;">
+                            deut<span style="color: var(--color-hyper-yellow);">.</span>li
+                        </div>
+                    </a>
+                    
+                    <div style="display: flex; flex-direction: column; justify-content: center; gap: 2px;">
+                        <span class="text-micro-label" style="color: var(--color-paper-white);">PNG METADATA FREE EXTRACTOR</span>
+                        <span class="text-micro-label" style="color: var(--color-paper-white);">100% LOCAL TOOL</span>
+                    </div>
+                </div>
+                
+                <!-- Vertical Divider -->
+                <div style="width: 1px; height: 32px; background-color: var(--color-dark-grey-border);"></div>
+                
+                <button id="btn-select-folder" class="btn-micro-rounded text-micro-label rounded-[4px]" style="padding: 6px 12px; font-weight: bold;">Select Folder</button>
+                <span id="folder-name-display" class="text-micro-label" style="display: none; font-weight: bold; color: var(--color-paper-white);"></span>
+                
+                <div id="dashboard-nav" class="dashboard-nav" style="display: none;">
+                    <button id="btn-grid" class="btn-micro-rounded rounded-[4px]" title="Grid View" style="padding: 6px 12px; display: flex; align-items: center; gap: 8px;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                        <span class="text-micro-label" style="line-height: 1;">GRID</span>
+                    </button>
+                    <button id="btn-list" class="btn-micro-rounded rounded-[4px]" title="List View" style="padding: 6px 12px; display: flex; align-items: center; gap: 8px;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                        <span class="text-micro-label" style="line-height: 1;">LIST</span>
+                    </button>
+                    <button id="btn-batch" class="btn-micro-rounded btn-primary rounded-[4px]" title="Batch Extract" style="padding: 6px 12px; display: flex; align-items: center; gap: 8px; font-weight: bold;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h14a2 2 0 0 0 2-2V7.5L14.5 2H6a2 2 0 0 0-2 2v4"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M2 15h10"></path><path d="m9 18 3-3-3-3"></path></svg>
+                        <span class="text-micro-label" style="line-height: 1; color: #050505;">EXTRACT ALL TO .DEUT</span>
+                    </button>
+                </div>
+                
+                <button id="btn-reset" class="btn-micro-rounded text-micro-label rounded-[4px]" style="display: none; padding: 6px 12px; font-weight: bold;">Change Folder</button>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <span id="output-log" class="text-micro-label" style="text-transform: none; color: var(--color-ghost-grey); margin-right: 16px;"></span>
+                
+                <button id="btn-theme-switcher" class="btn-micro-rounded rounded-[4px]" title="Toggle Theme" style="padding: 6px; border-color: transparent;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                </button>
+                <button id="btn-help" class="btn-micro-rounded rounded-[4px]" title="Help" style="padding: 6px; border-color: transparent;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                </button>
+                <button id="btn-header-tos" class="btn-micro-rounded rounded-[4px]" title="ToS" style="padding: 6px; border-color: transparent;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"></path><path d="m9 12 2 2 4-4"></path></svg>
+                </button>
+            </div>
+        </header>
+
+        <main id="app-main" style="display: flex; flex: 1; overflow: hidden;">
+            
+            <div id="view-grid" style="display: none; flex: 1; height: 100vh; overflow-y: auto; border-right: 1px dashed var(--color-dark-grey-border); padding: 20px;"></div>
+
+            <div id="view-list" style="display: none; flex: 1; height: 100vh; overflow-y: auto; border-right: 1px dashed var(--color-dark-grey-border); padding: 20px;"></div>
+
+            <div id="view-batch" style="display: none; flex: 1; padding: 20px; border-right: 1px dashed var(--color-dark-grey-border);"></div>
+
+            <div id="inspector-container" style="flex: 1; padding: 20px; overflow-y: auto; display: none;">
+                <p style="color: var(--color-ghost-grey);">Select an item to inspect metadata.</p>
+            </div>
+
+        </main>
+        
+        <footer id="app-footer" style="padding: 12px 16px; border-top: 1px solid var(--color-dark-grey-border); display: flex; justify-content: flex-end; align-items: center;">
+            <button id="btn-tos" class="footer-link">ToS</button>
+        </footer>
+    </div>
+
+    <dialog id="help-modal">
+        <div class="modal-content">
+            <h2>DEUTLI Extractor / Help</h2>
+            <p><a href="https://deut.li" target="_blank">https://deut.li</a></p>
+            <p><strong>Don't type. Snap it in.</strong></p>
+            <p>DEUTLI Extractor is a utility for extracting hidden metadata (generation parameters, prompts, workflows) from PNG files and saving them into a standardized text format.</p>
+
+            <h3>1. How It Works</h3>
+            <p>The utility operates locally, directly interacting with your file system without uploading anything to the network.</p>
+            <ul>
+                <li><strong>Step 1: Directory Selection.</strong> Choose the folder containing your images.<br>
+                <em>Security Note:</em> Since the Extractor is a web application (PWA), the browser will request system permission to view and edit files in the selected directory in order to read the images and save the text files.</li>
+                <li><strong>Step 2: Scanning.</strong> The application will read the files. Please note: rendering thumbnails for folders with a large number of heavy images may take some time.</li>
+                <li><strong>Step 3: Choose Operation Mode.</strong><br>
+                <strong>Batch Export:</strong> Click the <code>EXTRACT ALL TO .DEUT</code> button to automatically generate companion text files for all images in the folder at once.<br>
+                <strong>Selective Operation:</strong> Use the view toggles (Grid / List) to navigate and select a specific file.</li>
+                <li><strong>Step 4: Inspector (View and Export).</strong> Clicking on a specific image will display the extracted metadata in the right panel. You can review the data, copy the full original graph (Raw Workflow) to the clipboard in JSON format, or save a standalone <code>.deut</code> file for the selected image only.</li>
+            </ul>
+
+            <h3>2. Privacy and Autonomy (100% Local PWA)</h3>
+            <p>All file parsing processes are executed exclusively within your browser's RAM. Your data never leaves your computer.</p>
+            <ul>
+                <li>The utility is a Progressive Web App (PWA). You can install it as a standalone application using your browser's native functionality.</li>
+                <li>Once installed, the Extractor is cached in your system and can fully operate <strong>without an internet connection</strong>.</li>
+            </ul>
+
+            <h3>3. The Open .deut Standard</h3>
+            <p>We adhere strictly to the <em>Sidecar</em> concept. The Extractor does not alter original images under any circumstances—your PNGs remain untouched. All extracted information is saved alongside the original files in a lightweight JSON format with the <code>.deut</code> extension.<br>
+            The format specification is open and available for review and integration: <a href="https://github.com/deut-li/open-deut-format" target="_blank">Open Deut Format on GitHub</a>.</p>
+
+            <h3>4. Open Source</h3>
+            <p>DEUTLI Extractor is an open-source tool. The entire parser code (including the recursive search algorithm for complex ComfyUI graphs) is completely transparent. You can inspect the source code and contribute to its development in our repository: <a href="https://github.com/deutli/deutli-extractor" target="_blank">DEUTLI Extractor on GitHub</a>.</p>
+
+            <hr>
+            <p><strong>DEUTLI</strong> | Order from Chaos.</p>
+            <p><a href="https://deut.li" target="_blank">https://deut.li</a></p>
+            <div style="text-align: right; margin-top: 24px;">
+                <button id="close-help" class="btn-close-modal">Close</button>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="tos-modal">
+        <div class="modal-content">
+            <h2>Terms of Service</h2>
+
+            <h3>1. Parties and Subject of the Agreement</h3>
+            <p>1.1. This document (hereinafter referred to as the ToS) governs the use of the web application and standalone utility DEUTLI Extractor (hereinafter referred to as the Product).<br>
+            1.2. The Product is provided by the DEUTLI project (Switzerland).<br>
+            1.3. Launching the Product, granting it access to the local file system, or installing it as a PWA constitutes the user's full and unconditional agreement to this ToS.</p>
+
+            <h3>2. Privacy and Architecture (Zero-Server Policy)</h3>
+            <p>2.1. The Product is a fully autonomous, local tool (100% Local).<br>
+            2.2. DEUTLI does not have access to your files, extracted metadata, image content, or local directory structure.<br>
+            2.3. The Product strictly contains no telemetry mechanisms, license key verification, analytics collection, or hidden data transmission. All computational file processing occurs exclusively within the RAM and local storage of your device.</p>
+
+            <h3>3. Data Integrity and the Untouched Originals Principle</h3>
+            <p>3.1. The Product is designed to extract data without modifying the original binary files. Generated metadata is saved as separate text files (Sidecar files in the <code>.deut</code> format).<br>
+            3.2. DEUTLI is not responsible for the user's actions within their own file system. Any deletion, relocation, or accidental corruption of files during interaction with directories is the sole responsibility of the user.</p>
+
+            <h3>4. Disclaimer of Warranties (As Is)</h3>
+            <p>4.1. The Product is provided on an "As Is" basis, without any express or implied warranties, including, but not limited to, warranties of merchantability or fitness for a particular purpose.<br>
+            4.2. DEUTLI does not warrant that the Product will operate absolutely error-free, or that the extraction algorithms will be able to correctly process 100% of non-standard graphs and metadata generated by third-party software.</p>
+
+            <h3>5. License and Open Source</h3>
+            <p>5.1. The source code of the parser and the Product's interface is open-source and provided under the MIT License. The rights to use, copy, and modify the code are governed by the text of this license.<br>
+            5.2. The DEUTLI trademark and elements of the design system (Brand Identity System) are the intellectual property of the project and do not fall under the open-source license.</p>
+
+            <h3>6. Governing Law</h3>
+            <p>6.1. This ToS, as well as any disputes or disagreements arising in connection with the use of the Product, shall be governed by and construed in accordance with the substantive law of Switzerland.</p>
+            
+            <div style="text-align: right; margin-top: 24px;">
+                <button id="close-tos" class="btn-close-modal">Close</button>
+            </div>
+        </div>
+    </dialog>
+
+    <script type="module" src="main.js?v=6"></script>
+</body>
+</html>
