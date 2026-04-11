@@ -13,7 +13,7 @@ A professional-grade metadata extraction utility for ComfyUI and Automatic1111 P
 - ✅ Deep recursive parsing of ComfyUI node graphs (terminal node detection)
 - ✅ Full Automatic1111 / Forge metadata extraction
 - ✅ Web Worker architecture — non-blocking, handles 1000+ files
-- ✅ SHA-256 fingerprint on every `.deut` file
+- ✅ Sidecar files include a structured metadata header for traceability
 - ✅ Sidecar philosophy — originals are never modified
 - ✅ Offline-capable PWA (installable, no internet required after first load)
 - ✅ File System Access API — direct folder processing, no upload
@@ -23,6 +23,8 @@ A professional-grade metadata extraction utility for ComfyUI and Automatic1111 P
 ## Usage (Web)
 
 Open **[extractor.deut.li](https://extractor.deut.li)** in Chrome, Edge, or Arc and click **Select Folder**.
+
+> **Tip:** Install as a PWA for the best experience. In Chrome/Edge, click the install icon (⊕) in the address bar or go to **Menu → Install DEUTLI Extractor**. Once installed, the app works fully offline — no internet connection required for processing files.
 
 ---
 
