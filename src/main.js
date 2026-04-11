@@ -866,7 +866,6 @@ if (btnHelp && helpModal && btnCloseHelp) {
 // ToS Modal Logic
 // -------------------------------------------------------------
 const btnHeaderTos = document.getElementById('btn-header-tos');
-const btnFooterTos = document.getElementById('btn-tos');
 const tosModal = document.getElementById('tos-modal');
 const btnCloseTos = document.getElementById('close-tos');
 
@@ -875,7 +874,6 @@ function openTos() {
 }
 
 if (btnHeaderTos) btnHeaderTos.addEventListener('click', openTos);
-if (btnFooterTos) btnFooterTos.addEventListener('click', openTos);
 
 if (tosModal && btnCloseTos) {
     btnCloseTos.addEventListener('click', () => {

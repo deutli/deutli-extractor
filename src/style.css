@@ -220,20 +220,4 @@ header {
   color: var(--color-hyper-yellow);
 }
 
-.footer-link {
-  color: var(--color-dark-grey-border);
-  font-family: var(--font-manrope);
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: bold;
-  transition: color 0.2s;
-  cursor: pointer;
-  background: transparent;
-  border: none;
-  padding: 0;
-}
 
-.footer-link:hover, .footer-link:focus-visible {
-  color: var(--color-paper-white);
-}
