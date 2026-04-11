@@ -59,6 +59,7 @@ jobs:
         with:
           tagName: ${{ github.ref_name }}
           releaseName: 'DEUTLI Extractor ${{ github.ref_name }}'
+          includeRelease: true
           releaseBody: |
             ## DEUTLI Extractor — Portable Desktop Build
 
@@ -67,7 +68,7 @@ jobs:
             ### Downloads
             | Platform | File | Notes |
             |---|---|---|
-            | **Windows** | `DEUTLI-Extractor_x64-setup.exe` | NSIS installer |
+            | **Windows** | `deutli-extractor.exe` | Portable — no install required |
             | **macOS (Apple Silicon)** | `DEUTLI-Extractor_aarch64.dmg` | Unsigned — see security note below |
             | **Linux** | `DEUTLI-Extractor_x86_64.AppImage` | Requires `chmod +x` |
 
