@@ -248,9 +248,8 @@ async function saveDeutFile(originalFilename, fileContent) {
     const outputFilename = originalFilename + '.deut';
     
     if (isTauri) {
-        const { writeTextFile } = await import('@tauri-apps/plugin-fs');
-        const { join } = await import('@tauri-apps/api/path');
-        const outputPath = await join(globalBasePath, outputFilename);
+        const { writeTextFile } = window.__TAURI__.fs;
+        const outputPath = await window.__TAURI__.path.join(globalBasePath, outputFilename);
         await writeTextFile(outputPath, fileContent);
         return outputPath;
     } else {
@@ -463,8 +462,7 @@ function renderGrid() {
             const fullPath = globalBasePath + entry.name;
             
             img._lazyLoad = async () => {
-                const { convertFileSrc } = await import('@tauri-apps/api/core');
-                const assetUrl = convertFileSrc(fullPath);
+                const assetUrl = window.__TAURI__.core.convertFileSrc(fullPath);
                 img.src = assetUrl;
                 img.style.backgroundColor = 'transparent';
                 img.style.cursor = 'pointer';
@@ -473,8 +471,7 @@ function renderGrid() {
                     outputLog.textContent = `Inspecting ${entry.name}...`;
                     inspectorContainer.innerHTML = '<p>Loading...</p>';
                     try {
-                        const { readFile } = await import('@tauri-apps/plugin-fs');
-                        const uint8Array = await readFile(fullPath);
+                        const uint8Array = await window.__TAURI__.fs.readFile(fullPath);
                         const parsedData = await parseBufferAsync(uint8Array);
                         renderInspector(assetUrl, parsedData, entry.name);
                         outputLog.textContent = `Focus mode active: ${entry.name}`;
@@ -553,15 +550,13 @@ function renderList() {
         `;
         
         if (isTauri) {
-            import('@tauri-apps/plugin-fs').then(({ stat }) => {
-                stat(globalBasePath + name).then(fileInfo => {
-                    if (fileInfo.mtime || fileInfo.birthtime) {
-                        const d = new Date(fileInfo.mtime || fileInfo.birthtime);
-                        const dateEl = div.querySelector('.file-date');
-                        if (dateEl) dateEl.textContent = d.toLocaleDateString('ru-RU') + ' ' + d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
-                    }
-                }).catch(() => {});
-            });
+            window.__TAURI__.fs.stat(globalBasePath + name).then(fileInfo => {
+                if (fileInfo.mtime || fileInfo.birthtime) {
+                    const d = new Date(fileInfo.mtime || fileInfo.birthtime);
+                    const dateEl = div.querySelector('.file-date');
+                    if (dateEl) dateEl.textContent = d.toLocaleDateString('ru-RU') + ' ' + d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+                }
+            }).catch(() => {});
         }
         
         div.addEventListener('click', async () => {
@@ -569,12 +564,10 @@ function renderList() {
             inspectorContainer.innerHTML = '<p>Loading...</p>';
             try {
                 if (isTauri) {
-                    const { readFile } = await import('@tauri-apps/plugin-fs');
-                    const { convertFileSrc } = await import('@tauri-apps/api/core');
                     const fullPath = globalBasePath + name;
-                    const uint8Array = await readFile(fullPath);
+                    const uint8Array = await window.__TAURI__.fs.readFile(fullPath);
                     const parsedData = await parseBufferAsync(uint8Array);
-                    renderInspector(convertFileSrc(fullPath), parsedData, name);
+                    renderInspector(window.__TAURI__.core.convertFileSrc(fullPath), parsedData, name);
                 } else {
                     const buffer = await item.arrayBuffer();
                     const parsedData = await parseBufferAsync(buffer);
@@ -620,11 +613,7 @@ async function startBatch() {
         }
     }
     
-    let tauriReadFile = null;
-    if (isTauri) {
-        const { readFile } = await import('@tauri-apps/plugin-fs');
-        tauriReadFile = readFile;
-    }
+    const tauriReadFile = isTauri ? window.__TAURI__.fs.readFile : null;
 
     progressDiv.textContent = `Starting extraction for ${total} files...\n`;
     
@@ -718,17 +707,14 @@ btnSelectFolder.addEventListener('click', async () => {
     if (isTauri) {
         try {
             outputLog.textContent = 'Opening native dialog...';
-            const { open } = await import('@tauri-apps/plugin-dialog');
-            const { readDir } = await import('@tauri-apps/plugin-fs');
-            
-            const selectedPath = await open({
+            const selectedPath = await window.__TAURI__.dialog.open({
                 directory: true,
                 multiple: false
             });
 
             if (selectedPath) {
                 outputLog.textContent = `Scanning: ${selectedPath}`;
-                const entries = await readDir(selectedPath);
+                const entries = await window.__TAURI__.fs.readDir(selectedPath);
                 
                 const separator = selectedPath.includes('\\') ? '\\' : '/';
                 globalBasePath = selectedPath.endsWith(separator) ? selectedPath : selectedPath + separator;
