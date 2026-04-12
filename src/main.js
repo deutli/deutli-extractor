@@ -879,3 +879,97 @@ if (tosModal && btnCloseTos) {
         }
     });
 }
+
+// -------------------------------------------------------------
+// Download Modal & GitHub API Logic
+// -------------------------------------------------------------
+const downloadModal = document.getElementById('download-modal');
+const btnHeaderDownload = document.getElementById('btn-header-download');
+const closeDownloadBtn = document.getElementById('close-download');
+
+const btnDownloadWin = document.getElementById('btn-download-win');
+const btnDownloadMac = document.getElementById('btn-download-mac');
+const btnDownloadLin = document.getElementById('btn-download-lin');
+const versionBadge = document.getElementById('latest-version-badge');
+
+let releaseFetched = false;
+
+async function fetchLatestRelease() {
+    const fallbackUrl = 'https://github.com/deutli/deutli-extractor/releases/latest';
+    const osGroup = document.getElementById('download-group-os');
+    const fallbackGroup = document.getElementById('download-group-fallback');
+
+    try {
+        const response = await fetch('https://api.github.com/repos/deutli/deutli-extractor/releases/latest');
+        if (!response.ok) throw new Error('API failed');
+        
+        const data = await response.json();
+        
+        versionBadge.textContent = data.tag_name || '';
+
+        let winUrl = '';
+        let macUrl = '';
+        let linUrl = '';
+
+        if (data.assets && Array.isArray(data.assets)) {
+            data.assets.forEach(asset => {
+                if (asset.name.endsWith('.exe') && !asset.name.includes('setup')) {
+                    winUrl = asset.browser_download_url;
+                } else if (asset.name.endsWith('.dmg')) {
+                    macUrl = asset.browser_download_url;
+                } else if (asset.name.endsWith('.AppImage')) {
+                    linUrl = asset.browser_download_url;
+                }
+            });
+        }
+
+        if (winUrl || macUrl || linUrl) {
+            btnDownloadWin.href = winUrl || fallbackUrl;
+            btnDownloadMac.href = macUrl || fallbackUrl;
+            btnDownloadLin.href = linUrl || fallbackUrl;
+            
+            if (osGroup && fallbackGroup) {
+                osGroup.style.display = 'flex';
+                fallbackGroup.style.display = 'none';
+            }
+        } else {
+            throw new Error('No strictly matched assets found.');
+        }
+
+    } catch (err) {
+        console.error('Failed to fetch release:', err);
+        versionBadge.textContent = '';
+        if (osGroup && fallbackGroup) {
+            osGroup.style.display = 'none';
+            fallbackGroup.style.display = 'flex';
+        }
+    }
+}
+
+if (btnHeaderDownload) {
+    btnHeaderDownload.addEventListener('click', () => {
+        downloadModal.showModal();
+        if (!releaseFetched) {
+            versionBadge.textContent = '...';
+            fetchLatestRelease();
+            releaseFetched = true;
+        }
+    });
+}
+
+if (closeDownloadBtn) {
+    closeDownloadBtn.addEventListener('click', () => {
+        downloadModal.close();
+    });
+}
+
+if (downloadModal) {
+    downloadModal.addEventListener('click', (e) => {
+        const rect = downloadModal.getBoundingClientRect();
+        const inbox = rect.top <= e.clientY && e.clientY <= rect.top + rect.height &&
+            rect.left <= e.clientX && e.clientX <= rect.left + rect.width;
+        if (!inbox) {
+            downloadModal.close();
+        }
+    });
+}

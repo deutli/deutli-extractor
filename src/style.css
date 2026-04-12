@@ -163,7 +163,7 @@ header {
 }
 
 /* Modal Styles (Help & ToS) */
-#help-modal, #tos-modal {
+#help-modal, #tos-modal, #download-modal {
   background-color: var(--color-void-black);
   color: var(--color-paper-white);
   border: 1px solid var(--color-dark-grey-border);
@@ -177,28 +177,28 @@ header {
   overflow-y: auto;
 }
 
-#help-modal::backdrop, #tos-modal::backdrop {
+#help-modal::backdrop, #tos-modal::backdrop, #download-modal::backdrop {
   background-color: rgba(0, 0, 0, 0.8);
 }
 
-#help-modal h2, #help-modal h3, #tos-modal h2, #tos-modal h3 {
+#help-modal h2, #help-modal h3, #tos-modal h2, #tos-modal h3, #download-modal h2, #download-modal h3 {
   font-family: var(--font-archivo);
   text-transform: uppercase;
   margin-top: 0;
   color: var(--color-paper-white);
 }
 
-#help-modal h2, #tos-modal h2 { font-size: 24px; margin-bottom: 8px; }
-#help-modal h3, #tos-modal h3 { font-size: 14px; margin-top: 24px; margin-bottom: 12px; }
-#help-modal p, #help-modal li, #tos-modal p, #tos-modal li { font-size: 14px; line-height: 1.6; color: var(--color-soft-grey); margin-bottom: 12px; }
-#help-modal p:last-child, #tos-modal p:last-child { margin-bottom: 0; }
-#help-modal strong, #tos-modal strong { color: var(--color-paper-white); }
-#help-modal hr, #tos-modal hr { border: none; border-top: 1px solid var(--color-dark-grey-border); margin: 24px 0; }
-#help-modal a, #tos-modal a { color: var(--color-hyper-yellow); text-decoration: none; border-bottom: 1px solid var(--color-hyper-yellow); }
-#help-modal a:hover, #tos-modal a:hover { color: #e6e600; border-bottom-color: #e6e600; }
-#help-modal ul, #tos-modal ul { padding-left: 20px; margin-top: 8px; margin-bottom: 16px; }
-#help-modal li, #tos-modal li { margin-bottom: 8px; }
-#help-modal code, #tos-modal code { background-color: var(--color-mac-os-grey); padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 12px; }
+#help-modal h2, #tos-modal h2, #download-modal h2 { font-size: 24px; margin-bottom: 8px; }
+#help-modal h3, #tos-modal h3, #download-modal h3 { font-size: 14px; margin-top: 24px; margin-bottom: 12px; }
+#help-modal p, #help-modal li, #tos-modal p, #tos-modal li, #download-modal p, #download-modal li { font-size: 14px; line-height: 1.6; color: var(--color-soft-grey); margin-bottom: 12px; }
+#help-modal p:last-child, #tos-modal p:last-child, #download-modal p:last-child { margin-bottom: 0; }
+#help-modal strong, #tos-modal strong, #download-modal strong { color: var(--color-paper-white); }
+#help-modal hr, #tos-modal hr, #download-modal hr { border: none; border-top: 1px solid var(--color-dark-grey-border); margin: 24px 0; }
+#help-modal a, #tos-modal a, #download-modal a { color: var(--color-hyper-yellow); text-decoration: none; border-bottom: 1px solid var(--color-hyper-yellow); }
+#help-modal a:hover, #tos-modal a:hover, #download-modal a:hover { color: #e6e600; border-bottom-color: #e6e600; }
+#help-modal ul, #tos-modal ul, #download-modal ul { padding-left: 20px; margin-top: 8px; margin-bottom: 16px; }
+#help-modal li, #tos-modal li, #download-modal li { margin-bottom: 8px; }
+#help-modal code, #tos-modal code, #download-modal code { background-color: var(--color-mac-os-grey); padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 12px; }
 
 .btn-close-modal {
   border: 1px solid var(--color-dark-grey-border);
@@ -220,4 +220,46 @@ header {
   color: var(--color-hyper-yellow);
 }
 
+.btn-download-link {
+  display: block;
+  text-align: center;
+  border: 1px solid var(--color-dark-grey-border);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--color-paper-white);
+  padding: 16px;
+  font-family: var(--font-manrope);
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-size: 14px;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.btn-download-link:hover, .btn-download-link:focus-visible {
+  border-color: var(--color-hyper-yellow);
+  color: var(--color-hyper-yellow);
+}
+
+.btn-docs-link {
+  display: block;
+  text-align: center;
+  border: 1px solid var(--color-dark-grey-border);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--color-paper-white);
+  padding: 12px;
+  font-family: var(--font-manrope);
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.btn-docs-link:hover, .btn-docs-link:focus-visible {
+  border-color: var(--color-hyper-yellow);
+  color: var(--color-hyper-yellow);
+}
 
